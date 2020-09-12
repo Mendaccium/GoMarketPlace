@@ -41,26 +41,43 @@ const CartProvider: React.FC = ({ children }) => {
     loadProducts();
   }, []);
 
+  // const addToCart = useCallback(
+  //   async product => {
+  //     const productExist = products.find(prod => prod.id === product.id);
+  //     if (productExist) {
+  //       setProducts(
+  //         products.map(prod =>
+  //           prod.id === product.id
+  //             ? { ...product, quantity: prod.quantity + 1 }
+  //             : prod,
+  //         ),
+  //       );
+  //     } else {
+  //       setProducts([...products, { ...product, quantity: 1 }]);
+  //     }
+  //     await AsyncStorage.setItem(
+  //       '@GoMarketPlace:prod',
+  //       JSON.stringify(products),
+  //     );
+  //   },
+
+  //   [products],
+  // );
+
   const addToCart = useCallback(
     async product => {
-      const productExist = products.find(prod => prod.id === product.id);
-      if (productExist) {
-        setProducts(
-          products.map(prod =>
-            prod.id === product.id
-              ? { ...product, quantity: prod.quantity + 1 }
-              : prod,
-          ),
-        );
+      const productsExist = products.find(prod => prod.id === product.id);
+      if (productsExist) {
+        productsExist.quantity += 1;
+        setProducts([...products]);
       } else {
         setProducts([...products, { ...product, quantity: 1 }]);
       }
       await AsyncStorage.setItem(
-        '@GoMarketPlace:prod',
+        '@GoMarketplace:prod',
         JSON.stringify(products),
       );
     },
-
     [products],
   );
 
